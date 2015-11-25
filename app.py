@@ -10,6 +10,7 @@ def index():
     if request.method == 'POST':
         errors = []
         url = request.form['url']
+        print 'getting html from %s' % url
         if url:
             try:
                 html = tbcrawl.fetch_page(url)
@@ -17,11 +18,10 @@ def index():
                 errors.append(e.message)
                 return render_template('index.html', errors=errors)
 
-            print 'getting html'
-            logo = tbcrawl.get_logo(html)
             print 'getting logo'
-            bk = tbcrawl.get_background(html)
+            logo = tbcrawl.get_logo(html)
             print 'getting bk'
+            bk = tbcrawl.get_background(html)
             if logo is None:
                 errors.append('logo not found')
             if bk is None:
