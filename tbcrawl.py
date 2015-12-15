@@ -13,10 +13,14 @@ def get_logo(html):
     if logo is None:
         return None
     logo_onerror = logo.get('onerror')
-    match = re.search(r'(//.*\.png)', logo_onerror)
-    if match is None:
-        return None
-    logo_url = match.group(0)
+    logo_url = None
+    if logo_onerror:
+        match = re.search(r'(//.*\.png)', logo_onerror)
+        if match:
+            logo_url = match.group(0)
+    if not logo_url:
+        # fallback to a known default
+        logo_url = '//d1ocyvul7e05j7.cloudfront.net/static/desktop/img/tb-logo.52fe1daef7cb.png'
     logo_img = requests.get('http:' + logo_url)
     logo_buff = StringIO.StringIO(logo_img.content)
     return logo_buff
