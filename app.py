@@ -29,7 +29,7 @@ def index():
                 logo = open('tb-logo.png', 'r')
                 img = tbimg.build_image(bk, logo)
                 img_io = StringIO.StringIO()
-                img.save(img_io, 'PNG')
+                img.save(img_io, 'JPEG')
                 img_io.seek(0)
             except Exception as e:
                 errors.append(e.message)
@@ -38,7 +38,7 @@ def index():
             return send_file(img_io,
                              as_attachment=True,
                              attachment_filename='out.png',
-                             mimetype='image/png')
+                             mimetype='image/jpeg')
     return render_template('index.html')
 
 if __name__ == "__main__":
