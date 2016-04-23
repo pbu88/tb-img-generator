@@ -9,14 +9,14 @@ def fetch_page(url):
 
 def get_background(html):
     soup = bs4.BeautifulSoup(html, 'html.parser')
-    bkground = soup.find('header', {'class':'offer-header'})
-    if bkground is None:
+    bkgrounds_div = soup.find('div', {'class':'PageCover'}).find('div').findAll('span')
+    data_srcs = map(
+        lambda s: s['data-src'],
+        filter(lambda s: re.search(r'\/offer-cover-image\/', s['data-src']),
+               bkgrounds_div))
+    if not data_srcs:
         return None
-    bkground_style = bkground.get('style')
-    match = re.search(r"url\('(.*)'\)", bkground_style)
-    if match is None:
-        return None
-    bk_url = match.group(1)
+    bk_url = data_srcs[0]
     bk_img = requests.get('http:' + bk_url)
     bk_buff = StringIO.StringIO(bk_img.content)
     return bk_buff
