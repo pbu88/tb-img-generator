@@ -9,7 +9,7 @@ def fetch_page(url):
 
 def get_background(html):
     soup = bs4.BeautifulSoup(html, 'html.parser')
-    bkgrounds_div = soup.find('div', {'class':'PageCover'}).find('div').findAll('span')
+    bkgrounds_div = soup.find('div', {'class':'offer__hero'}).find('div').findAll('span')
     data_srcs = map(
         lambda s: s['data-src'],
         filter(lambda s: re.search(r'\/offer-cover-image\/', s['data-src']),
